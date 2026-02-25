@@ -167,6 +167,26 @@ export class Xterm {
 
         terminal.open(parent);
         fitAddon.fit();
+
+        // Mobile: tap to focus terminal and show virtual keyboard
+        parent.addEventListener('touchstart', () => terminal.focus(), { passive: true });
+
+        // Mobile: handle virtual keyboard resize via visualViewport
+        if (window.visualViewport) {
+            const onViewportResize = () => {
+                const vv = window.visualViewport!;
+                const topbarHeight = 32;
+                parent.style.height = (vv.height - topbarHeight) + 'px';
+                parent.style.top = (vv.offsetTop + topbarHeight) + 'px';
+                fitAddon.fit();
+            };
+            window.visualViewport.addEventListener('resize', onViewportResize);
+            window.visualViewport.addEventListener('scroll', onViewportResize);
+            this.register(toDisposable(() => {
+                window.visualViewport?.removeEventListener('resize', onViewportResize);
+                window.visualViewport?.removeEventListener('scroll', onViewportResize);
+            }));
+        }
     }
 
     @bind
@@ -200,6 +220,7 @@ export class Xterm {
             })
         );
         register(addEventListener(window, 'resize', () => fitAddon.fit()));
+        register(addEventListener(window, 'orientationchange', () => setTimeout(() => fitAddon.fit(), 200)));
         register(addEventListener(window, 'beforeunload', this.onWindowUnload));
     }
 

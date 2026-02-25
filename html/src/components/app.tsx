@@ -9,10 +9,11 @@ const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
 const path = window.location.pathname.replace(/[/]+$/, '');
 const wsUrl = [protocol, '//', window.location.host, path, '/ws', window.location.search].join('');
 const tokenUrl = [window.location.protocol, '//', window.location.host, path, '/token'].join('');
+const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || (window.innerWidth <= 768);
 const clientOptions = {
-    rendererType: 'webgl',
+    rendererType: isMobile ? 'canvas' : 'webgl',
     disableLeaveAlert: false,
-    disableResizeOverlay: false,
+    disableResizeOverlay: isMobile,
     enableZmodem: false,
     enableTrzsz: false,
     enableSixel: false,
@@ -21,7 +22,7 @@ const clientOptions = {
     unicodeVersion: '11',
 } as ClientOptions;
 const termOptions = {
-    fontSize: 13,
+    fontSize: isMobile ? 16 : 13,
     fontFamily: 'Consolas,Liberation Mono,Menlo,Courier,monospace',
     theme: {
         foreground: '#d2d2d2',

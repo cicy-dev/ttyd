@@ -4,15 +4,37 @@ body {
   min-height: 100%;
   margin: 0;
   overflow: hidden;
+  touch-action: manipulation;
+  position: fixed;
+  width: 100%;
+}
+
+#topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 32px;
+  z-index: 100;
 }
 
 #terminal-container {
-  width: auto;
-  height: 100%;
-  margin: 0 auto;
+  width: 100%;
+  height: calc(100% - 32px);
+  margin-top: 32px;
   padding: 0;
+  position: fixed;
+  left: 0;
+  overflow: hidden;
   .terminal {
     padding: 5px;
     height: calc(100% - 10px);
+  }
+}
+
+@media (max-width: 768px) {
+  #terminal-container .terminal {
+    padding: 2px;
+    height: calc(100% - 4px);
   }
 }

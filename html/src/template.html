@@ -3,14 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <title><%= htmlWebpackPlugin.options.title %></title>
     <link inline rel="icon" type="image/png" href="favicon.png">
+    <style>
+      body { background: #1f2937; }
+      *::-webkit-scrollbar { width: 6px; height: 6px; }
+      *::-webkit-scrollbar-track { background: #1f2937; }
+      *::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 3px; }
+      *::-webkit-scrollbar-thumb:hover { background: #6b7280; }
+      .xterm .xterm-viewport::-webkit-scrollbar { width: 0 !important; height: 0 !important; display: none !important; }
+      .xterm .xterm-viewport { scrollbar-width: none !important; -ms-overflow-style: none !important; }
+    </style>
     <% for (const css in htmlWebpackPlugin.files.css) { %>
     <link inline rel="stylesheet" type="text/css" href="<%= htmlWebpackPlugin.files.css[css] %>">
     <% } %>
 </head>
 <body>
+<div id="topbar"></div>
 <% for (const js in htmlWebpackPlugin.files.js) { %>
 <script inline type="text/javascript" src="<%= htmlWebpackPlugin.files.js[js] %>"></script>
 <% } %>
